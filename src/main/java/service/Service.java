@@ -12,33 +12,25 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 public class Service{
-    private String curentUser;
+    private String currentUser;
 
-    public void setCurentUser(String curentUser) {
-        this.curentUser = curentUser;
+    public void setCurrentUser(String currentUser) {
+        this.currentUser = currentUser;
     }
-    public String getCurentUser(){
-        return curentUser;
+    public String getCurrentUser(){
+        return currentUser;
     }
 
-    private static Service singletonService;
+    //private static Service singletonService;
     private final Repository<User, String> userRepo;
     private final Repository<Friendship, Pair<String, String>> friendshipRepo;
 
     private final MessageDBRepo messageRepo;
 
-    private Service(Repository<User, String>r1, Repository<Friendship, Pair<String, String>> r2,MessageDBRepo r3){
+    public Service(Repository<User, String>r1, Repository<Friendship, Pair<String, String>> r2,MessageDBRepo r3){
         this.userRepo = r1;
         this.friendshipRepo = r2;
         this.messageRepo = r3;
-    }
-
-    public static Service getInstance(Repository<User, String>r1, Repository<Friendship, Pair<String, String>> r2, MessageDBRepo r3){
-        if(singletonService == null){
-            singletonService = new Service(r1,r2,r3);
-        }
-
-        return singletonService;
     }
 
     public void addUserS(String name, String username, String pass, String email){

@@ -17,6 +17,7 @@ import repository.FriendshipDBRepo;
 import repository.MessageDBRepo;
 import repository.UserDBRepo;
 import service.Service;
+import utils.LastUserLogged;
 
 import java.net.URL;
 import java.time.LocalDateTime;
@@ -29,7 +30,18 @@ public class UsermainController implements Initializable {
     FriendshipValidator fval = new FriendshipValidator();
     FriendshipDBRepo frepo = new FriendshipDBRepo(fval,"buzz","friendships");
     MessageDBRepo mrepo = new MessageDBRepo("buzz");
-    Service service = Service.getInstance(urepo,frepo,mrepo);
+    Service service = new Service(urepo,frepo,mrepo);
+
+    private String currentUser;
+
+    public void setCurrentUser(String currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    public String getCurrentUser(){
+        return currentUser;
+    }
+
     @FXML
     private ListView<String> prieteniList;
     @FXML
@@ -55,6 +67,9 @@ public class UsermainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
+        LastUserLogged lastUserLogged = LastUserLogged.getInstance();
+        service.setCurrentUser(lastUserLogged.getUsername());
+
         load_friends();
         load_requests();
 
@@ -70,11 +85,13 @@ public class UsermainController implements Initializable {
                 }
             }
         });
+
+        System.out.println(service.getCurrentUser());
     }
 
     public void load_messages(){
         chatTextFlow.getChildren().clear();
-        List<String> msgs = service.get_messages(service.getCurentUser(),currentChatUser);
+        List<String> msgs = service.get_messages(service.getCurrentUser(),currentChatUser);
         for(String s: msgs){
             Text t = new Text(s+"\n");
             chatTextFlow.getChildren().add(t);
@@ -83,7 +100,7 @@ public class UsermainController implements Initializable {
     @FXML
     public void sendMsg(){
         String text = chatMsg.getText();
-        Message message = new Message(service.getCurentUser(),currentChatUser,text, LocalDateTime.now());
+        Message message = new Message(service.getCurrentUser(),currentChatUser,text, LocalDateTime.now());
         mrepo.save(message);
         Text t = new Text(text);
         chatTextFlow.getChildren().add(t);
@@ -92,7 +109,7 @@ public class UsermainController implements Initializable {
     @FXML
     public void load_friends(){
         prieteniList.getItems().clear();
-        Iterable<String> friends = service.userFriends(service.getCurentUser());
+        Iterable<String> friends = service.userFriends(service.getCurrentUser());
         for(String friend: friends){
             prieteniList.getItems().add(friend);
         }
@@ -104,7 +121,7 @@ public class UsermainController implements Initializable {
         userColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getKey()));
         statusColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getValue()));
 
-        Iterable<Pair<String,String>> requests = service.userRequests(service.getCurentUser());
+        Iterable<Pair<String,String>> requests = service.userRequests(service.getCurrentUser());
         for(Pair<String,String> request: requests){
             cereriList.getItems().add(request);
         }
@@ -114,7 +131,7 @@ public class UsermainController implements Initializable {
     protected void deleteFriend(){
         ObservableList<String> selected = prieteniList.getSelectionModel().getSelectedItems();
         String friend = selected.get(0);
-        service.removeFriendshipS(friend,service.getCurentUser());
+        service.removeFriendshipS(friend,service.getCurrentUser());
         load_friends();
     }
 
@@ -122,7 +139,7 @@ public class UsermainController implements Initializable {
     protected void addFriend(){
         String newfriend = newFriend.getText();
         try{
-            service.addFriendshipS(service.getCurentUser(),newfriend);
+            service.addFriendshipS(service.getCurrentUser(),newfriend);
         }
         catch (Exception e){
             resultLabel.setText(e.getMessage());
@@ -135,7 +152,7 @@ public class UsermainController implements Initializable {
     protected void acceptR(){
         Pair<String,String> request = cereriList.getSelectionModel().getSelectedItem();
         try{
-            service.acceptFriendshipS(service.getCurentUser(),request);
+            service.acceptFriendshipS(service.getCurrentUser(),request);
         }
         catch (Exception e){
             resultLabel.setText(e.getMessage());
@@ -148,7 +165,7 @@ public class UsermainController implements Initializable {
     protected void deleteR(){
         Pair<String,String> item = cereriList.getSelectionModel().getSelectedItem();
         String username = item.getKey();
-        service.removeFriendshipS(username,service.getCurentUser());
+        service.removeFriendshipS(username,service.getCurrentUser());
         load_requests();
     }
 }

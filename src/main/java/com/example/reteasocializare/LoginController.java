@@ -6,6 +6,7 @@ import domain.validator.UserValidator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -17,6 +18,7 @@ import repository.FriendshipDBRepo;
 import repository.MessageDBRepo;
 import repository.UserDBRepo;
 import service.Service;
+import utils.LastUserLogged;
 import utils.myFunction;
 
 import java.io.IOException;
@@ -35,7 +37,9 @@ public class LoginController implements Initializable {
     FriendshipValidator fval = new FriendshipValidator();
     FriendshipDBRepo frepo = new FriendshipDBRepo(fval,"buzz","friendships");
     MessageDBRepo mrepo = new MessageDBRepo("buzz");
-    Service service = Service.getInstance(urepo,frepo,mrepo);
+    Service service = new Service(urepo,frepo,mrepo);
+
+    LastUserLogged lastUserLogged = LastUserLogged.getInstance();
 
     @FXML
     private Label resultText;
@@ -85,14 +89,15 @@ public class LoginController implements Initializable {
         }
         if(password.equals(user.getPassword())){
             resultText.setText("Logare cu succes!" + user.getName());
-            service.setCurentUser(usernameTF.getText());
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("usermain.fxml"));
+                lastUserLogged.setUsername(usernameTF.getText());
                 Scene scene = new Scene(fxmlLoader.load(), 850, 500);
                 Stage stage = new Stage();
                 stage.setTitle(user.getUsername());
                 stage.setScene(scene);
                 stage.show();
+
             }
             catch (IOException e) {
                 Logger logger = Logger.getLogger(getClass().getName());

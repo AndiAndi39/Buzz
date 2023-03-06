@@ -14,6 +14,7 @@ import repository.FriendshipDBRepo;
 import repository.MessageDBRepo;
 import repository.UserDBRepo;
 import service.Service;
+import utils.LastUserLogged;
 import utils.myFunction;
 
 import java.io.IOException;
@@ -30,7 +31,10 @@ public class RegisterController {
     FriendshipValidator fval = new FriendshipValidator();
     FriendshipDBRepo frepo = new FriendshipDBRepo(fval,"buzz","friendships");
     MessageDBRepo mrepo = new MessageDBRepo("buzz");
-    Service service = Service.getInstance(urepo,frepo,mrepo);
+    Service service = new Service(urepo,frepo,mrepo);
+    LastUserLogged lastUserLogged = LastUserLogged.getInstance();
+
+
     @FXML
     private Label resultText;
     @FXML
