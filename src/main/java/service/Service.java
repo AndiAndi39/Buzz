@@ -4,6 +4,7 @@ import domain.Friendship;
 import domain.Message;
 import domain.User;
 import javafx.util.Pair;
+import observer.MyObservable;
 import repository.MessageDBRepo;
 import repository.Repository;
 import utils.myFunction;
@@ -21,7 +22,6 @@ public class Service{
         return currentUser;
     }
 
-    //private static Service singletonService;
     private final Repository<User, String> userRepo;
     private final Repository<Friendship, Pair<String, String>> friendshipRepo;
 

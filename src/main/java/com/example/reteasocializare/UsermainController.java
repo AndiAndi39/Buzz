@@ -13,6 +13,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Pair;
+import observer.MyObservable;
+import observer.MyObserver;
 import repository.FriendshipDBRepo;
 import repository.MessageDBRepo;
 import repository.UserDBRepo;
@@ -23,7 +25,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.*;
 
-public class UsermainController implements Initializable {
+public class UsermainController implements Initializable, MyObserver {
 
     UserValidator uval = new UserValidator();
     UserDBRepo urepo  = new UserDBRepo(uval, "buzz","users");
@@ -31,16 +33,7 @@ public class UsermainController implements Initializable {
     FriendshipDBRepo frepo = new FriendshipDBRepo(fval,"buzz","friendships");
     MessageDBRepo mrepo = new MessageDBRepo("buzz");
     Service service = new Service(urepo,frepo,mrepo);
-
-    private String currentUser;
-
-    public void setCurrentUser(String currentUser) {
-        this.currentUser = currentUser;
-    }
-
-    public String getCurrentUser(){
-        return currentUser;
-    }
+    MyObservable myObservable = MyObservable.getInstance();
 
     @FXML
     private ListView<String> prieteniList;
@@ -67,11 +60,11 @@ public class UsermainController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb){
+        myObservable.addObserver(this);
         LastUserLogged lastUserLogged = LastUserLogged.getInstance();
         service.setCurrentUser(lastUserLogged.getUsername());
 
-        load_friends();
-        load_requests();
+        update();
 
         prieteniList.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
@@ -85,8 +78,6 @@ public class UsermainController implements Initializable {
                 }
             }
         });
-
-        System.out.println(service.getCurrentUser());
     }
 
     public void load_messages(){
@@ -115,6 +106,12 @@ public class UsermainController implements Initializable {
         }
     }
 
+    @Override
+    public void update(){
+        load_friends();
+        load_requests();
+    }
+
     @FXML
     public void load_requests(){
         cereriList.getItems().clear();
@@ -132,7 +129,7 @@ public class UsermainController implements Initializable {
         ObservableList<String> selected = prieteniList.getSelectionModel().getSelectedItems();
         String friend = selected.get(0);
         service.removeFriendshipS(friend,service.getCurrentUser());
-        load_friends();
+        myObservable.obs_notify();
     }
 
     @FXML
@@ -144,8 +141,7 @@ public class UsermainController implements Initializable {
         catch (Exception e){
             resultLabel.setText(e.getMessage());
         }
-        load_friends();
-        load_requests();
+        myObservable.obs_notify();
     }
 
     @FXML
@@ -157,8 +153,7 @@ public class UsermainController implements Initializable {
         catch (Exception e){
             resultLabel.setText(e.getMessage());
         }
-        load_requests();
-        load_friends();
+        myObservable.obs_notify();
     }
 
     @FXML
@@ -166,6 +161,6 @@ public class UsermainController implements Initializable {
         Pair<String,String> item = cereriList.getSelectionModel().getSelectedItem();
         String username = item.getKey();
         service.removeFriendshipS(username,service.getCurrentUser());
-        load_requests();
+        myObservable.obs_notify();
     }
 }

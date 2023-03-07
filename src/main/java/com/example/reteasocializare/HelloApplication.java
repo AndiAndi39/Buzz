@@ -19,13 +19,6 @@ public class HelloApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        /*UserValidator uval = new UserValidator();
-        UserDBRepo urepo  = new UserDBRepo(uval, "buzz","users");
-        FriendshipValidator fval = new FriendshipValidator();
-        FriendshipDBRepo frepo = new FriendshipDBRepo(fval,"buzz","friendships");
-        MessageDBRepo mrepo = new MessageDBRepo("buzz");
-        Service service = Service.getInstance(urepo,frepo,mrepo);*/
-
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 500, 400);
         stage.setTitle("Login");
