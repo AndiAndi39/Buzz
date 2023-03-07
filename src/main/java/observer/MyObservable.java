@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyObservable {
+    //My observable for usermainControllers
     private static MyObservable singleInstance;
 
     public static MyObservable getInstance(){

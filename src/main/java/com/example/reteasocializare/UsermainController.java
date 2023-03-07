@@ -82,9 +82,15 @@ public class UsermainController implements Initializable, MyObserver {
 
     public void load_messages(){
         chatTextFlow.getChildren().clear();
-        List<String> msgs = service.get_messages(service.getCurrentUser(),currentChatUser);
-        for(String s: msgs){
-            Text t = new Text(s+"\n");
+        List<Message> msgs = service.get_messages(service.getCurrentUser(),currentChatUser);
+        for(Message message: msgs){
+            Text t = null;
+            if(Objects.equals(message.getFrom(), service.getCurrentUser())){
+                t = new Text("YOU: "+message.getText()+"\n");
+            }
+            else{
+                t = new Text(currentChatUser+": "+message.getText()+"\n");
+            }
             chatTextFlow.getChildren().add(t);
         }
     }
@@ -93,8 +99,9 @@ public class UsermainController implements Initializable, MyObserver {
         String text = chatMsg.getText();
         Message message = new Message(service.getCurrentUser(),currentChatUser,text, LocalDateTime.now());
         mrepo.save(message);
-        Text t = new Text(text);
+        Text t = new Text("YOU: "+text+"\n");
         chatTextFlow.getChildren().add(t);
+        myObservable.obs_notify();
     }
 
     @FXML
@@ -110,6 +117,7 @@ public class UsermainController implements Initializable, MyObserver {
     public void update(){
         load_friends();
         load_requests();
+        load_messages();
     }
 
     @FXML

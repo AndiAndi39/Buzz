@@ -17,18 +17,11 @@ import java.util.List;
 public class UserDBRepo extends AbstractDBRepo<User, String> {
 
     private final String table_name;
-    /*
-    Constructor
-     */
+
     public UserDBRepo(UserValidator val, String db_name,String t_name){
         super(val,db_name,t_name);
         this.table_name = t_name;
     }
-
-
-    /*
-    Delete an user
-     */
     @Override
     public User delete(String username){
         String querry = "DELETE FROM users WHERE username='"+username+"'";
@@ -38,14 +31,11 @@ public class UserDBRepo extends AbstractDBRepo<User, String> {
             st.executeUpdate();
         }
         catch (SQLException e){
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
         return user;
     }
 
-    /*
-    Find one user by username
-     */
     @Override
     public User findOne(String username){
         String querry = "SELECT * FROM " + this.table_name +" WHERE username=\'"+username+"\'";
@@ -59,7 +49,7 @@ public class UserDBRepo extends AbstractDBRepo<User, String> {
             return entity;
         }
         catch (SQLException e){
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
         return null;
     }
@@ -71,7 +61,7 @@ public class UserDBRepo extends AbstractDBRepo<User, String> {
             return u;
         }
         catch (SQLException e){
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
         return null;
     }

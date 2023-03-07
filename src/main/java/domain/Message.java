@@ -19,7 +19,7 @@ public class Message{
     }
 
     public String getFrom() {
-        return from;
+        return this.from;
     }
 
     public void setFrom(String from) {
@@ -27,7 +27,7 @@ public class Message{
     }
 
     public String getTo() {
-        return to;
+        return this.to;
     }
 
     public void setTo(String to) {
@@ -35,7 +35,7 @@ public class Message{
     }
 
     public String getText() {
-        return text;
+        return this.text;
     }
 
     public void setText(String text) {
@@ -43,7 +43,7 @@ public class Message{
     }
 
     public LocalDateTime getTime() {
-        return time;
+        return this.time;
     }
 
     public void setTime(LocalDateTime time) {

@@ -12,8 +12,7 @@ import java.util.Locale;
 public class MessageDBRepo {
 
     private String db_name;
-    protected Connection connection;
-
+   protected Connection connection;
 
     public MessageDBRepo(String _db_name){
         this.db_name = _db_name;
@@ -21,11 +20,9 @@ public class MessageDBRepo {
             this.connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/"+db_name,"postgres","postgre");
         }
         catch (SQLException e){
-            //System.out.println(e);
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
     }
-
 
     public Message save(Message m){
         String query = "INSERT INTO messages(\"from\",\"to\",\"text\",\"time\") VALUES"+messageToDBString(m);
@@ -34,7 +31,7 @@ public class MessageDBRepo {
             st.executeUpdate();
         }
         catch (SQLException e){
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
 
         return m;
@@ -52,7 +49,7 @@ public class MessageDBRepo {
             }
         }
         catch (SQLException e){
-            //System.out.println(e);
+            System.out.println(e.getMessage());
         }
         return entities;
     }
@@ -69,7 +66,7 @@ public class MessageDBRepo {
             return u;
         }
         catch (SQLException e){
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
         return null;
     }

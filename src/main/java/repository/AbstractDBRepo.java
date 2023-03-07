@@ -9,6 +9,7 @@ import java.util.List;
 
 public abstract class AbstractDBRepo<E extends Entity<ID>,ID> implements Repository<E, ID>{
 
+    //Abstract class for database repository
     private Validator<E> validator;
     protected Connection connection;
     private String table_name;
@@ -45,10 +46,8 @@ public abstract class AbstractDBRepo<E extends Entity<ID>,ID> implements Reposit
 
 
     //--------------------Public functions-----------------------
-    /*
-    Constructor
-     */
     public AbstractDBRepo(Validator<E> val, String db_name, String table_name){
+        //Constructor
         this.validator = val;
         this.table_name = table_name;
         try {
@@ -61,11 +60,11 @@ public abstract class AbstractDBRepo<E extends Entity<ID>,ID> implements Reposit
         this.columns_name = getColumnsNameFromTable();
     }
 
-    /*
-    Save an entity in the table.
-    return type: E
-     */
     public E save(E entity){
+        /*
+        Save an entity in the table.
+        return type: E
+        */
         System.out.println(columnsToString(columns_name));
         System.out.println(entityToDBString(entity));
         String query = "INSERT INTO " +table_name+columnsToString(columns_name)+" VALUES " + entityToDBString(entity);
@@ -81,12 +80,11 @@ public abstract class AbstractDBRepo<E extends Entity<ID>,ID> implements Reposit
         return entity;
     }
 
-
-    /*
+    public Iterable<E> findAll(){
+        /*
     Return all entities from table
     return type: Iterable<E>
     */
-    public Iterable<E> findAll(){
         String query = "SELECT * FROM " + table_name;
         List<E> entities = new ArrayList<>();
         try {
@@ -102,14 +100,13 @@ public abstract class AbstractDBRepo<E extends Entity<ID>,ID> implements Reposit
         }
         return entities;
     }
-
-    /*
+    @Override
+    public E update(E newentity, E oldentity) {
+        /*
     !not the best
     Update an oldentity with a new one
     return type: E
      */
-    @Override
-    public E update(E newentity, E oldentity) {
         delete(oldentity.getId());
         validator.validate(newentity);
         save(newentity);

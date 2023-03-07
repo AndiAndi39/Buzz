@@ -72,12 +72,12 @@ public class LoginController implements Initializable {
     protected void onLoginButtonClick() {
         if(Objects.equals(usernameTF.getText(), "") || Objects.equals(passwordTF.getText(), ""))
         {
-            resultText.setText("Campurile nu trebuie sa fie goale");
+            resultText.setText("The fields must not be empty");
             return;
         }
         User user = urepo.findOne(usernameTF.getText());
         if(user == null){
-            resultText.setText("Parola sau username gresit!");
+            resultText.setText("Incorrect password or username!");
             return;
         }
         String password = passwordTF.getText()+user.getSalt();
@@ -88,7 +88,7 @@ public class LoginController implements Initializable {
 
         }
         if(password.equals(user.getPassword())){
-            resultText.setText("Logare cu succes!" + user.getName());
+            resultText.setText("Login successful!");
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("usermain.fxml"));
                 lastUserLogged.setUsername(usernameTF.getText());
@@ -105,7 +105,7 @@ public class LoginController implements Initializable {
             }
         }
         else{
-            resultText.setText("Parola sau username gresit!");
+            resultText.setText("Incorrect password or username!");
         }
     }
 
@@ -113,7 +113,7 @@ public class LoginController implements Initializable {
     protected void noaccountTextClick(){
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("register.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 400, 400);
+            Scene scene = new Scene(fxmlLoader.load(), 400, 480);
             Stage stage = new Stage();
             stage.setTitle("Register");
             stage.setScene(scene);

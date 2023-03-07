@@ -16,7 +16,6 @@ public class FriendshipDBRepo extends AbstractDBRepo<Friendship, Pair<String,Str
         this.table_name = t_name;
     }
 
-
     @Override
     public Friendship delete(Pair<String, String> id){
         String username1 = id.getKey();

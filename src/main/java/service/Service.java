@@ -47,12 +47,15 @@ public class Service{
         userRepo.save(user);
     }
 
-    public List<String> get_messages(String from, String to){
+    public List<Message> get_messages(String u1, String u2){
         Iterable<Message> all_msgs = messageRepo.findAll();
-        List<String> msgs = new ArrayList<>();
+        List<Message> msgs = new ArrayList<>();
         for(Message m : all_msgs){
-            if(Objects.equals(m.getFrom(), from) && Objects.equals(m.getTo(), to)){
-                msgs.add(m.getText());
+            if(Objects.equals(m.getFrom(), u1) && Objects.equals(m.getTo(), u2)){
+                msgs.add(m);
+            }
+            if(Objects.equals(m.getFrom(), u2) && Objects.equals(m.getTo(), u1)){
+                msgs.add(m);
             }
         }
         return msgs;
@@ -139,9 +142,6 @@ public class Service{
         return user_requests;
     }
 
-    /*
-    ! nu e gata
-     */
     public void addFriendshipS(String username1, String username2) throws Exception {
         if(Objects.equals(username1, username2)) {
             throw new Exception("Cu acest username esti conectat!");
@@ -166,7 +166,7 @@ public class Service{
     }
 
     public void acceptFriendshipS(String cUser, Pair<String,String> request) throws Exception{
-        if(request.getValue() == "sent"){
+        if(Objects.equals(request.getValue(), "sent")){
             throw new Exception("Ai trimis cerere de prietenie");
         }
         String sender = request.getKey();

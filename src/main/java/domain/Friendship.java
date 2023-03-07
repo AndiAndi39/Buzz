@@ -24,7 +24,7 @@ public class Friendship extends Entity<Pair<String,String>> {
         this.status = status;
     }
     public String getUser1() {
-        return user1;
+        return this.user1;
     }
 
     public void setUser1(String user1) {
@@ -32,7 +32,7 @@ public class Friendship extends Entity<Pair<String,String>> {
     }
 
     public String getUser2() {
-        return user2;
+        return this.user2;
     }
 
     public void setUser2(String user2) {
@@ -40,13 +40,13 @@ public class Friendship extends Entity<Pair<String,String>> {
     }
 
     public LocalDate getFriendsFrom(){
-        return friendsFrom;
+        return this.friendsFrom;
     }
 
     public void setFriendsFrom(LocalDate date){
         this.friendsFrom = date;
     }
 
-    public String getStatus() {return status;}
+    public String getStatus() {return this.status;}
     public void setStatus(){this.status = status;}
 }

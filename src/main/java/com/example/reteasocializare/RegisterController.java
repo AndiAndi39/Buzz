@@ -5,10 +5,13 @@ import domain.validator.FriendshipValidator;
 import domain.validator.UserValidator;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import repository.FriendshipDBRepo;
 import repository.MessageDBRepo;
@@ -25,7 +28,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class RegisterController {
+public class RegisterController implements Initializable {
     UserValidator uval = new UserValidator();
     UserDBRepo urepo  = new UserDBRepo(uval, "buzz","users");
     FriendshipValidator fval = new FriendshipValidator();
@@ -47,20 +50,32 @@ public class RegisterController {
     private PasswordField confirmpasswordTF;
     @FXML
     private TextField emailTF;
+    @FXML
+    private ImageView buzzImage;
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb){
+        load_images();
+    }
+    public void load_images(){
+        String working_directory = System.getProperty("user.dir");
+        Image buzz = new Image(working_directory+"\\images\\buzz.jpg");
+        buzzImage.setImage(buzz);
+    }
 
     @FXML
     protected void onRegisterButtonClick(){
         if(Objects.equals(nameTF.getText(), "") || Objects.equals(usernameTF.getText(), "") || Objects.equals(passwordTF.getText(), "") || Objects.equals(confirmpasswordTF.getText(), "") || Objects.equals(emailTF.getText(), "")){
-            resultText.setText("Toate campurile sunt obligatorii!");
+            resultText.setText("Please complete all fields!");
             return;
         }
         if(!Objects.equals(passwordTF.getText(),confirmpasswordTF.getText())){
-            resultText.setText("Parolele nu coincid!");
+            resultText.setText("Passwords do not match!");
             return;
         }
         try {
             service.addUserS(nameTF.getText(),usernameTF.getText(),passwordTF.getText(),emailTF.getText());
-            resultText.setText("Inregistrare cu succes!");
+            resultText.setText("Register successful!");
         }
         catch (Exception e){
             resultText.setText(e.toString());
