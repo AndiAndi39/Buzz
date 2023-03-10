@@ -9,13 +9,13 @@ public class UserValidator implements Validator<User>{
     @Override
     public void validate(User entity) throws ValidationException {
         if(Objects.equals(entity.getUsername(), "") || Objects.equals(entity.getPassword(),"") || Objects.equals(entity.getName(),"") || Objects.equals(entity.getEmail(), "")){
-            throw new ValidationException("Nu pot fi date nule!");
+            throw new ValidationException("No empty fields please!");
         }
         if(entity.getUsername().contains(" ")){
-            throw new ValidationException("Username-ul nu trebuie sa aiba spatii!");
+            throw new ValidationException("Username can not contain spaces!");
         }
         if(!myFunction.isEmailValid(entity.getEmail())){
-            throw new ValidationException("Emailul nu este valid!");
+            throw new ValidationException("Invalid email!");
         }
     }
 }

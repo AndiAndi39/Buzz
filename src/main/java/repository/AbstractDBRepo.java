@@ -65,8 +65,6 @@ public abstract class AbstractDBRepo<E extends Entity<ID>,ID> implements Reposit
         Save an entity in the table.
         return type: E
         */
-        System.out.println(columnsToString(columns_name));
-        System.out.println(entityToDBString(entity));
         String query = "INSERT INTO " +table_name+columnsToString(columns_name)+" VALUES " + entityToDBString(entity);
         validator.validate(entity);
         try {

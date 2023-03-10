@@ -25,14 +25,17 @@ public class MessageDBRepo {
     }
 
     public Message save(Message m){
-        String query = "INSERT INTO messages(\"from\",\"to\",\"text\",\"time\") VALUES"+messageToDBString(m);
-        try {
-            PreparedStatement st = connection.prepareStatement(query);
-            st.executeUpdate();
+        if(m.getTo() != null){
+            String query = "INSERT INTO messages(\"from\",\"to\",\"text\",\"time\") VALUES"+messageToDBString(m);
+            try {
+                PreparedStatement st = connection.prepareStatement(query);
+                st.executeUpdate();
+            }
+            catch (SQLException e){
+                System.out.println(e.getMessage());
+            }
         }
-        catch (SQLException e){
-            System.out.println(e.getMessage());
-        }
+
 
         return m;
     }

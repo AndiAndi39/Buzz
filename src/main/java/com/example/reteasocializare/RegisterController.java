@@ -73,12 +73,22 @@ public class RegisterController implements Initializable {
             resultText.setText("Passwords do not match!");
             return;
         }
+        for(User user: service.allUsersS()){
+            if (Objects.equals(user.getUsername(), usernameTF.getText())){
+                resultText.setText("This username already exists!");
+                return;
+            }
+            if(Objects.equals(user.getEmail(), emailTF.getText())){
+                resultText.setText("This email is registered!");
+                return;
+            }
+        }
         try {
             service.addUserS(nameTF.getText(),usernameTF.getText(),passwordTF.getText(),emailTF.getText());
             resultText.setText("Register successful!");
         }
         catch (Exception e){
-            resultText.setText(e.toString());
+            resultText.setText(e.getMessage());
         }
     }
 }
