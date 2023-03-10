@@ -92,12 +92,12 @@ public class LoginController implements Initializable {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("usermain.fxml"));
                 lastUserLogged.setUsername(usernameTF.getText());
-                Scene scene = new Scene(fxmlLoader.load(), 850, 500);
                 Stage stage = new Stage();
+                lastUserLogged.setLastStage(stage);
+                Scene scene = new Scene(fxmlLoader.load(), 850, 500);
                 stage.setTitle(user.getUsername());
                 stage.setScene(scene);
                 stage.show();
-
             }
             catch (IOException e) {
                 Logger logger = Logger.getLogger(getClass().getName());

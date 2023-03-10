@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="javafx-media-19.0.2.1">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Downloads/javafx-media-19.0.2.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="jar://$USER_HOME$/Downloads/javafx-media-19.0.2.1.jar!/" recursive="false" />
+  </library>
+</component>

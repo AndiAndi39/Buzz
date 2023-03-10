@@ -5,17 +5,60 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="479.0" prefWidth="581.0" spacing="20.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.reteasocializare.RegisterController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-    </padding>
-   <TextField fx:id="nameTF" promptText="Name" />
-    <TextField fx:id="usernameTF" promptText="Username" />
-    <PasswordField fx:id="passwordTF" promptText="Password" />
-   <PasswordField fx:id="confirmpasswordTF" promptText="Confirm Password" />
-   <TextField fx:id="emailTF" promptText="Email" />
-    <Button mnemonicParsing="false" onAction="#onRegisterButtonClick" text="Register" />
-    <Label fx:id="resultText" />
-</VBox>
+
+<AnchorPane prefHeight="480.0" prefWidth="402.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.reteasocializare.RegisterController">
+   <children>
+      <VBox alignment="CENTER" layoutY="89.0" prefHeight="390.0" prefWidth="402.0" spacing="20.0">
+          <padding>
+              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+          </padding>
+         <TextField fx:id="nameTF" promptText="Name">
+            <font>
+               <Font size="13.0" />
+            </font>
+         </TextField>
+          <TextField fx:id="usernameTF" promptText="Username">
+            <font>
+               <Font size="13.0" />
+            </font>
+         </TextField>
+          <PasswordField fx:id="passwordTF" promptText="Password">
+            <font>
+               <Font size="13.0" />
+            </font>
+         </PasswordField>
+         <PasswordField fx:id="confirmpasswordTF" promptText="Confirm Password">
+            <font>
+               <Font size="13.0" />
+            </font>
+         </PasswordField>
+         <TextField fx:id="emailTF" promptText="Email">
+            <font>
+               <Font size="13.0" />
+            </font>
+         </TextField>
+          <Button mnemonicParsing="false" onAction="#onRegisterButtonClick" prefHeight="38.0" prefWidth="121.0" text="Register">
+            <font>
+               <Font name="System Bold" size="18.0" />
+            </font>
+         </Button>
+          <Label fx:id="resultText" />
+      </VBox>
+      <ImageView fx:id="buzzImage" fitHeight="107.0" fitWidth="402.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../../images/buzz.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="125.0" layoutY="57.0" text="REGISTER HERE NOW" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
